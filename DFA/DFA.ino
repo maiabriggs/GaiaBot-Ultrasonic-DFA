@@ -2,6 +2,7 @@
 #include <FiveSensors.h>
 #include <Movements.h>
 #include <RoboClaw.h>
+#include <Dijkstras.h>
 
 //RoboClaw ----- pin S1 -> pin 13, pin S2 -> pin 12
 //Pin assignments for Sensors
