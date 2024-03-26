@@ -6,16 +6,36 @@
 #include <ArduinoSTL.h>
 
 
-Dijkstras dijkstras(8); // 0 is the start position, 7 is the end position
+Robot robot(fTrig, fEcho, m2Trig, m2Echo, m1Trig, m1Echo, fm1Trig, fm1Echo, fm2Trig, fm2Echo);
+Movements movements; 
 
 void setup() {
+    // Initialize serial communication for debugging
+    Serial.begin(9600);
+    
+    // Add any additional setup code here
  Serial.begin(9600);
 }
 
 void loop() {
-  int shortestPathLength = dijkstras.findPath(0, 7);
-
-  // Print the length of the shortest path
-  Serial.print("Length of shortest path from 0 to 7: ");
-  Serial.println(shortestPathLength);
+    // Example: Switch from Stop to TurnLeft state
+    // Define the next state to switch to
+    TurnLeft& nextTurnLeftState = TurnLeft::getInstance();
+    
+    // Toggle to the next state
+    robot.toggle(nextTurnLeftState);
+    
+    // Add a delay or other code here if needed
+    delay(1000); // Delay for 1 second
+    
+    // After the switch, you can continue with other operations or switch to another state
+    
+    // Example: Switch back to Stop state
+    Stop& nextStopState = Stop::getInstance();
+    robot.toggle(nextStopState);
+    
+    // Add a delay or other code here if needed
+    delay(1000); // Delay for 1 second
+    
+    // Loop continues, performing state transitions or other operations
 }

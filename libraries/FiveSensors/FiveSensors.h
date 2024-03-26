@@ -5,9 +5,9 @@
 
 class FiveSensors {
   public:
-    FiveSensors(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin);
+    FiveSensors();
 
-    void begin();
+    void begin(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin);
     float getFrontSensorDist();
     float getM2SensorDist();
     float getM1SensorDist();
