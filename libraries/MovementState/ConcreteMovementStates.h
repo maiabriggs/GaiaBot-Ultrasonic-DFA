@@ -7,6 +7,7 @@
 class Stop : public MovementState {
     public: 
         void enter(Robot* robot);
+        void checkSensor(Robot* robot);
         static MovementState& getInstance();
 
     private:
@@ -18,6 +19,7 @@ class Stop : public MovementState {
 class TurnLeft : public MovementState {
     public:
         void enter(Robot* robot);
+        void checkSensor(Robot* robot);
         static MovementState& getInstance();
 
     private:
@@ -29,6 +31,7 @@ class TurnLeft : public MovementState {
 class TurnRight : public MovementState {
     public:
         void enter(Robot* robot);
+        void checkSensor(Robot* robot);
         static MovementState& getInstance();
 
     private:
@@ -40,6 +43,7 @@ class TurnRight : public MovementState {
 class KeepLeft : public MovementState {
     public:
         void enter(Robot* robot);
+        void checkSensor(Robot* robot);
         static MovementState& getInstance();
 
     private:
@@ -51,6 +55,7 @@ class KeepLeft : public MovementState {
 class KeepRight : public MovementState {
     public:
         void enter(Robot* robot);
+        void checkSensor(Robot* robot);
         static MovementState& getInstance();
 
     private:

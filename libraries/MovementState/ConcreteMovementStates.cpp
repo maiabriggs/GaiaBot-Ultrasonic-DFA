@@ -7,6 +7,8 @@ void Stop::enter(Robot* robot)
     robot->movements.stop();
 }
 
+void Stop::checkSensor(Robot* robot){}
+
 MovementState& Stop::getInstance()
 {
 	static Stop singleton;
@@ -16,8 +18,11 @@ MovementState& Stop::getInstance()
 
 void TurnLeft::enter(Robot* robot)
 {
-    robot->movements.left();
+    robot->movements.left90();
 }
+
+void TurnLeft::checkSensor(Robot* robot){}
+
 
 MovementState& TurnLeft::getInstance()
 {
@@ -27,8 +32,10 @@ MovementState& TurnLeft::getInstance()
 
 void TurnRight::enter(Robot* robot)
 {
-    robot->movements.right();
+    robot->movements.right90();
 }
+
+void TurnRight::checkSensor(Robot* robot){}
 
 MovementState& TurnRight::getInstance()
 {
@@ -41,6 +48,21 @@ MovementState& KeepLeft::getInstance()
 {
 	static KeepLeft singleton;
 	return singleton;
+}
+
+void KeepLeft::checkSensor(Robot* robot){
+    Serial.println("Checking my position");
+    if (robot->fiveSensors.getM1SensorDist() < (10)) {
+        Serial.println("I'm too close to the wall");
+        robot->movements.veerLeft();
+    } 
+    else if ((robot->fiveSensors.getM1SensorDist() > 20) && (robot->fiveSensors.getM1SensorDist() < 150)) {
+    Serial.println("I'm too far from the wall");
+        robot->movements.veerRight();
+    }
+    else {
+        
+    }
 }
 
 MovementState& KeepRight::getInstance()

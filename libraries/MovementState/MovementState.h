@@ -13,6 +13,7 @@ class MovementState {
     public:
         virtual void enter(Robot* robot) = 0;
         virtual void toggle(Robot* robot, MovementState& nextState);
+        virtual void checkSensor(Robot* robot) {}
         virtual void exit(Robot* robot);
         virtual ~MovementState() {}   
 };
