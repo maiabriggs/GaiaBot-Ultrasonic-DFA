@@ -9,7 +9,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int shortestPathLength = dijkstras.findPath(, 4);
+  int shortestPathLength = dijkstras.findPath(0, 4);
 
   // Print the length of the shortest path
   Serial.print("Length of shortest path from 0 to 7: ");
