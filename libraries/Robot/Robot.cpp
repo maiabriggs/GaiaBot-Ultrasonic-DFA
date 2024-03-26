@@ -1,19 +1,17 @@
 #include "Arduino.h"
-#include "State.h"
+#include "Robot.h"
 #include "RoboClaw.h"
-#include <array>
 #include "MovementState.h"
 #include "Movements.h"
 #include <FiveSensors.h>
+#include "ConcreteMovementStates.h"
 
 Movements movements;
-FiveSensors fiveSensors(fTrig, fEcho, m2Trig, m2Echo, m1Trig, m1Echo, fm1Trig, fm1Echo, fm2Trig, fm2Echo);
 
 
 Robot::Robot(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin)
 {
     movements.begin();
-    fiveSensors.begin();
 
 	//Robot is initially still
 	currentState = &Stop::getInstance();

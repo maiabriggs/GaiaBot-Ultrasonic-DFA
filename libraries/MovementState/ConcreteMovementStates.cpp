@@ -1,4 +1,5 @@
 #include "ConcreteMovementStates.h"
+#include "Robot.h"
 
 void Stop::enter(Robot* robot)
 {

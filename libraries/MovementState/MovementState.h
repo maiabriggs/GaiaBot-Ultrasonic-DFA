@@ -15,6 +15,6 @@ class MovementState {
         virtual void toggle(Robot* robot, MovementState& nextState);
         virtual void exit(Robot* robot);
         virtual ~MovementState() {}   
-}
+};
 
 #endif

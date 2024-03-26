@@ -7,21 +7,20 @@
 #include "Arduino.h";
 #include "Movements.h";
 #include "MovementState.h";
-#include "FiveSensors.h";
+#include "ConcreteMovementStates.h";
 
 class MovementState;
 
 class Robot {
     public:
-        Robot();
+        Robot(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin);
         Movements movements;
-        FiveSensors fiveSensors;
-        void toggle();
+        void toggle(MovementState& newState);
 	    void setState(MovementState& newState);
 
     private:
 	    MovementState* currentState;
 
-}
+};
 
 #endif
