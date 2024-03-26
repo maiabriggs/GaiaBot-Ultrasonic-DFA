@@ -34,24 +34,24 @@ float getM1ensorDist();
 float getFM2SensorDist();
 float getFM1ensorDist();
 
-FiveSensors::FiveSensors(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin) {
-    f_trig = f_trigPin;
-    f_echo = f_echoPin;
+FiveSensors::FiveSensors() {}
 
-    m2_trig = m2_trigPin;
-    m2_echo = m2_echoPin;
+void FiveSensors::begin(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin) {
+  f_trig = f_trigPin;
+  f_echo = f_echoPin;
 
-    m1_trig = m1_trigPin;
-    m1_echo = m1_echoPin;
+  m2_trig = m2_trigPin;
+  m2_echo = m2_echoPin;
 
-    fm2_trig = fm2_trigPin;
-    fm2_echo = fm2_echoPin;
+  m1_trig = m1_trigPin;
+  m1_echo = m1_echoPin;
 
-    fm1_trig = fm1_trigPin;
-    fm1_echo = fm1_echoPin;
-  }
+  fm2_trig = fm2_trigPin;
+  fm2_echo = fm2_echoPin;
 
-void FiveSensors::begin() {
+  fm1_trig = fm1_trigPin;
+  fm1_echo = fm1_echoPin;
+  
   //Initialising front sensor
   pinMode(f_trig, OUTPUT);
   pinMode(f_echo, INPUT);

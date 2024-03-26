@@ -8,6 +8,7 @@
 #include "Movements.h";
 #include "MovementState.h";
 #include "ConcreteMovementStates.h";
+#include "FiveSensors.h";
 
 class MovementState;
 
@@ -17,6 +18,7 @@ class Robot {
         Movements movements;
         void toggle(MovementState& newState);
 	    void setState(MovementState& newState);
+        FiveSensors FiveSensors;
 
     private:
 	    MovementState* currentState;

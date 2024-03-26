@@ -3,15 +3,17 @@
 #include "RoboClaw.h"
 #include "MovementState.h"
 #include "Movements.h"
-#include <FiveSensors.h>
+#include "FiveSensors.h"
 #include "ConcreteMovementStates.h"
 
 Movements movements;
+FiveSensors fiveSensors;
 
 
 Robot::Robot(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin)
 {
     movements.begin();
+	fiveSensors.begin(f_trigPin, f_echoPin, m2_trigPin, m2_echoPin, m1_trigPin, m1_echoPin, fm1_trigPin, fm1_echoPin, fm2_trigPin, fm2_echoPin);
 
 	//Robot is initially still
 	currentState = &Stop::getInstance();
