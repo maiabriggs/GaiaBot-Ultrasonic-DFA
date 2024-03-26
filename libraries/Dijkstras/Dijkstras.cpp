@@ -4,38 +4,40 @@ Class for retrieving the shortest path from one node to another node in the maze
 
 #include "Arduino.h"
 #include "Dijkstras.h"
+#include <stdio.h>  // For printf
+#include <stdlib.h> // For rand
+#include <list>
+#include <queue>
+#include <utility>
+#include <stack>
+#include <ArduinoSTL.h>
+#define NO_REDEFINE_NEW_OPERATORS
+using namespace std;
+#define INF 0x3f3f3f3f
 
 typedef pair<int, int> iPair;
 
-class Graph {
-    int V; //Number of vertices in the graph
-    list< pair<int, int> > *adj; //Pointer to an array containing adjacency lists
+list< pair<int, int> > *adj;
 
-public:
-    Graph(int V); //Constructor
-    void addEdge(int u, int v, int w); //Function to add an edge to the graph
-    void shortestPath(int startPos, int endPos); //Function to find the shortest path from source s to all other vertices
+Dijkstras::Dijkstras(int V){
+    this->V = V;
+    adj = new list<iPair> [V];
 }
 
-Graph::Graph(int V) { 
-    this->V = V; // Assign number of vertices
-    adj = new list<iPair> [V]; // Create an array of adjacency lists. Size of array will be V
-}
 
-void Graph::addEdge(int u, int v, int w){
+void Dijkstras::addEdge(int u, int v, int w){
     adj[u].push_back(make_pair(v,w)); // Add a new edge to the adjacency list of u. The edge is from u to v and has weight w which is 1 but idk
-    adj[v].push_back(make_pair(u,w)); 
 }
 
-void Graph::shortestPath(int startPos, int endPos){
-    priority_queue<iPair, vector<iPair>, greater<iPair> > // Create a priority queue to store vertices that are being preprocessed.
-        pq;
+void Dijkstras::shortestPath(int startPos, int endPos){
+    int V=8;
+    priority_queue<iPair, vector<iPair>, greater<iPair> > pq;// Create a priority queue to store vertices that are being preprocessed.
     vector<int> dist(V, INF); // Create a vector for distances and initialize all distances as infinite (INF)
     vector<int> prev(V, -1); // Create a vector for previous nodes and initialize all previous nodes as -1. This is for the path
     pq.push(make_pair(0, startPos)); // Insert source itself in priority queue and initialize its distance as 0.
     dist[startPos] = 0; // Distance to the source is 0 e.g. distance from start to start is 0.
 
-    while (!pq_empty()) { // iterate over the priority queue
+    while (!pq.empty()) { // iterate over the priority queue
         int u = pq.top().second; // The first vertex in pair is the minimum distance vertex, extract it from priority queue.
         pq.pop(); // Remove the vertex from the priority queue
 
@@ -72,21 +74,29 @@ void Graph::shortestPath(int startPos, int endPos){
 
 }
 
-int Dijkstras(int startPos, int endPos) {
+int Dijkstras::findPath(int startPos, int endPos) {
     int V = 8; // 8 corners so 8 vertices
-    Graph g(V); // Create a graph with the vertices
+    Dijkstras g(V); // Create a graph with the vertices
     // Add edges to the graph based on the diagram drawn
     g.addEdge(0, 1, 1);
-    g.addEdge(0, 3, 1);
+    g.addEdge(1, 0, 1); // Add the reverse edge
     g.addEdge(1, 2, 1);
+    g.addEdge(2, 1, 1);
     g.addEdge(2, 3, 1);
+    g.addEdge(3, 2, 1);
+    g.addEdge(3, 0, 1);
     g.addEdge(2, 7, 1);
+    g.addEdge(7, 2, 1);
     g.addEdge(3, 4, 1);
+    g.addEdge(4, 3, 1);
     g.addEdge(4, 5, 1);
+    g.addEdge(5, 4, 1);
     g.addEdge(5, 6, 1);
+    g.addEdge(6, 5, 1);
     g.addEdge(6, 7, 1);
+    g.addEdge(7, 6, 1);
 
-    g.shortestPath(startPos, endPos) // Find the shortest path from the start node to the end node
+    g.shortestPath(startPos, endPos); // Find the shortest path from the start node to the end node
     return 0;
 }
 
