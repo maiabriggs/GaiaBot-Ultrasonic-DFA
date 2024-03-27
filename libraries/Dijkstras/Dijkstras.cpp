@@ -1,4 +1,4 @@
-
+// Dijkstras.cpp
 
 #include "PriorityQueue.h"
 #include "Stack.h"
@@ -80,24 +80,22 @@ void Dijkstras::printPath(int startPos, int endPos) {
 }
 
 int Dijkstras::findPath(int startPos, int endPos) {
-    Dijkstras g(8);
+    Dijkstras g(7);
     g.addEdge(0, 1, 1);
     g.addEdge(1, 0, 1);
     g.addEdge(1, 2, 1);
     g.addEdge(2, 1, 1);
     g.addEdge(2, 3, 1);
     g.addEdge(3, 2, 1);
-    g.addEdge(3, 0, 1);
-    g.addEdge(2, 7, 1);
-    g.addEdge(7, 2, 1);
+    g.addEdge(2, 0, 1);
+    g.addEdge(1, 6, 1);
+    g.addEdge(6, 1, 1);
     g.addEdge(3, 4, 1);
     g.addEdge(4, 3, 1);
     g.addEdge(4, 5, 1);
-    g.addEdge(5, 4, 1);
+    g.addEdge(4, 5, 1);
     g.addEdge(5, 6, 1);
     g.addEdge(6, 5, 1);
-    g.addEdge(6, 7, 1);
-    g.addEdge(7, 6, 1);
 
     g.shortestPath(startPos, endPos);
     return 0;
