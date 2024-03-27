@@ -1,5 +1,7 @@
 #include "ConcreteMovementStates.h"
 #include "Robot.h"
+#include "Movements.h"
+#include "FiveSensors.h"
 
 void Stop::enter(Robot* robot)
 {
@@ -55,16 +57,34 @@ MovementState& KeepRight::getInstance()
 void KeepRight::enter(Robot* robot)
 {
 	Serial.println("Keeping right");
-    while (((fiveSensors.getFM1SensorDist !> 150) || (fiveSensors.getFM2SensorDist !> 150) || (fiveSensors.getFrontSensorDist !< 20))) {
+    while (!(robot->fiveSensors.getFM1SensorDist() > 150) | !(robot->fiveSensors.getFM2SensorDist() > 150) | !(robot->fiveSensors.getFrontSensorDist() < 20)) {
         robot->movements.forward();
-        if (fiveSensors.getM1SensorDist() < (15)) {
-            Serial.println("I'm too close to the wall");
-            robot->movements.veerLeft();
+        if (robot->fiveSensors.getM1SensorDist() < (15)) {
+			robot->movements.stop();
+			delay(100);
+			Serial.println(robot->fiveSensors.getM1SensorDist());
+			if (robot->fiveSensors.getM1SensorDist() < (15)) {
+				robot->movements.stop();
+				Serial.println("I'm too far from the wall");
+				Serial.println(robot->fiveSensors.getM1SensorDist());
+				robot->movements.veerLeft();
+			}
         } 
-        else if (fiveSensors.getM1SensorDist() > (17)) {
-            Serial.println("I'm too far from the wall");
-            robot->movements.veerRight();
+        else if ((robot->fiveSensors.getM1SensorDist() > 17) && (robot->fiveSensors.getM1SensorDist() < 50)) {
+			robot->movements.stop();
+			delay(100);
+			if ((robot->fiveSensors.getM1SensorDist() > 17) && (robot->fiveSensors.getM1SensorDist() < 50)) {
+				robot->movements.stop();
+				Serial.println("I'm too far from the wall");
+				Serial.println(robot->fiveSensors.getM1SensorDist());
+				robot->movements.veerRight();
+			}
         }
+		else if ((robot->fiveSensors.getFM1SensorDist() > 150) | (robot->fiveSensors.getFM2SensorDist() > 150)){
+			robot->movements.stop();
+			delay(1000);
+			break;
+		}
     }
   }
 
@@ -72,17 +92,30 @@ void KeepRight::enter(Robot* robot)
 void KeepLeft::enter(Robot* robot)
 {
 	Serial.println("Keeping left");
-    while (((fiveSensors.getFM1SensorDist !> 150) || (fiveSensors.getFM2SensorDist !> 150) || (fiveSensors.getFrontSensorDist !< 20))) {
+    while (!(robot->fiveSensors.getFM1SensorDist() > 150) | !(robot->fiveSensors.getFM2SensorDist() > 150) | !(robot->fiveSensors.getFrontSensorDist() < 20)) {
         robot->movements.forward();
-        if (fiveSensors.getM2SensorDist() < (15)) {
-            Serial.println("I'm too close to the wall");
-            robot->movements.veerRight();
+        if (robot->getSensorM2() < (15)) {
+			robot->movements.stop();
+			delay(100);
+			if (robot->getSensorM2() < (15)) {
+				Serial.println("I'm too close to the wall");
+				Serial.println(robot->getSensorM2());
+            	robot->movements.veerRight();
+			}
         }
-        else if (fiveSensors.getM2SensorDist() > (17)) {
-            Serial.println("I'm too far from the wall");
-            robot->movements.veerLeft();
+        else if (robot->getSensorM2() > (17) && robot->getSensorM2() < 50) {
+			robot->movements.stop();
+			delay(100);
+			if (robot->getSensorM2() > (17) && robot->getSensorM2() < 50) {
+				Serial.println("I'm too far from the wall");
+				Serial.println(robot->getSensorM2());
+				robot->movements.veerLeft();
+			}
         }
+		else if ((robot->fiveSensors.getFM1SensorDist() > 150) | (robot->fiveSensors.getFM2SensorDist() > 150)){
+			robot->movements.stop();
+			delay(1000);
+			break;
+		}
     }
 }
-
-
