@@ -24,6 +24,8 @@ class Robot {
         void traverseToNode(int currNode, int nextNode);
         void navigate(int startNode, int endNode);
         float getSensorM2();
+        bool dontCheckLeft;
+        bool dontCheckRight;
 
     private:
 	    MovementState* currentState;

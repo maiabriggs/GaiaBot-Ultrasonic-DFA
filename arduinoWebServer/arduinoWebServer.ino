@@ -9,19 +9,23 @@ int status = WL_IDLE_STATUS;        // WiFi connection status
 WiFiServer server(80);  // Create a server on port 80
 
 // Pin configuration for the robot's sensors
-const int f_trigPin = 2;
-const int f_echoPin = 3;
-const int m2_trigPin = 4;
-const int m2_echoPin = 5;
-const int m1_trigPin = 6;
-const int m1_echoPin = 7;
-const int fm1_trigPin = 8;
-const int fm1_echoPin = 9;
-const int fm2_trigPin = 10;
-const int fm2_echoPin = 11;
+int fTrig = 7;
+int fEcho = 6;
+
+int m2Trig = 9;
+int m2Echo = 8;
+
+int m1Trig = 3;
+int m1Echo = 2;
+
+int fm2Trig = 10;
+int fm2Echo = 11;
+
+int fm1Trig = 5;
+int fm1Echo = 4;
 
 // Create an instance of the Robot class
-Robot myRobot(f_trigPin, f_echoPin, m2_trigPin, m2_echoPin, m1_trigPin, m1_echoPin, fm1_trigPin, fm1_echoPin, fm2_trigPin, fm2_echoPin);
+Robot myRobot(fTrig, fEcho, m2Trig, m2Echo, m1Trig, m1Echo, fm1Trig, fm1Echo, fm2Trig, fm2Echo);
 
 void setup() {
   Serial.begin(9600);
