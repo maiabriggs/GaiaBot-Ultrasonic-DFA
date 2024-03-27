@@ -9,6 +9,10 @@
 
 
 Movements movements;
+FiveSensors fiveSensors;
+
+bool dontCheckLeft;
+bool dontCheckRight;
 
 int sitch[13][2] = {
     {0, 1},
@@ -31,10 +35,11 @@ int sitch[13][2] = {
 Robot::Robot(int f_trigPin, int f_echoPin, int m2_trigPin, int m2_echoPin, int m1_trigPin, int m1_echoPin, int fm1_trigPin, int fm1_echoPin, int fm2_trigPin, int fm2_echoPin)
 {
     movements.begin();
-
+    fiveSensors.begin(f_trigPin, f_echoPin, m2_trigPin, m2_echoPin, m1_trigPin, m1_echoPin, fm1_trigPin, fm1_echoPin, fm2_trigPin, fm2_echoPin);
 	//Robot is initially still
 	currentState = &Stop::getInstance();
-   
+    dontCheckLeft = false;
+    dontCheckRight = false;
 }
 
 void Robot::setState(MovementState& newState)
@@ -62,8 +67,10 @@ void Robot::initStateListForNode(int scenario) {
 
     switch (scenario) {
 
-		//Start -> 1
+		//0 -> 1
         case 0:
+            dontCheckLeft = false;
+            dontCheckRight = false;
             // Define the states for node 1
             toggle(&KeepLeft::getInstance());
             toggle(&TurnLeft::getInstance());
@@ -72,6 +79,8 @@ void Robot::initStateListForNode(int scenario) {
 
 		//1 -> 2
         case 1:
+            dontCheckLeft = false;
+            dontCheckRight = true;
             toggle(&TurnLeft::getInstance());
             toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
@@ -79,6 +88,8 @@ void Robot::initStateListForNode(int scenario) {
 
 		//1 -> 6
 		case 2:
+            dontCheckLeft = true;
+            dontCheckRight = false;
             toggle(&KeepRight::getInstance());
 			toggle(&TurnLeft::getInstance());
 			toggle(&Stop::getInstance());
@@ -86,6 +97,8 @@ void Robot::initStateListForNode(int scenario) {
 
 		//2 -> 1
 		case 3:
+            dontCheckLeft = true;
+            dontCheckRight = false;
             toggle(&KeepRight::getInstance());
 			toggle(&TurnRight::getInstance());
 			toggle(&Stop::getInstance());
@@ -93,12 +106,17 @@ void Robot::initStateListForNode(int scenario) {
 		
 		//6 -> 1
 		case 4:
-            toggle(&TurnRight::getInstance());
+            dontCheckLeft = false;
+            dontCheckRight = true;
+            toggle(&TurnLeft::getInstance());
+            toggle(&KeepRight::getInstance());
 			toggle(&Stop::getInstance());
             break;
 
 		//2 -> 3
 		case 5:
+            dontCheckLeft = true;
+            dontCheckRight = true;
             toggle(&KeepLeft::getInstance());
 			toggle(&TurnRight::getInstance());
 			toggle(&Stop::getInstance());
@@ -106,12 +124,16 @@ void Robot::initStateListForNode(int scenario) {
 
 		//3 -> 2
 		case 6:
+            dontCheckLeft = false;
+            dontCheckRight = false;
             toggle(&TurnRight::getInstance());
 			toggle(&Stop::getInstance());
             break;
 		
 		//3 -> 4
 		case 7:
+            dontCheckLeft = false;
+            dontCheckRight = false;
             toggle(&KeepLeft::getInstance());
 			toggle(&TurnRight::getInstance());
 			toggle(&Stop::getInstance());
@@ -119,6 +141,8 @@ void Robot::initStateListForNode(int scenario) {
 		
 		//4 -> 3
 		case 8:
+            dontCheckLeft = false;
+            dontCheckRight = false;
             toggle(&KeepRight::getInstance());
 			toggle(&TurnLeft::getInstance());
 			toggle(&Stop::getInstance());
@@ -126,6 +150,8 @@ void Robot::initStateListForNode(int scenario) {
 		
 		//5 -> 4
 		case 9:	
+            dontCheckLeft = false;
+            dontCheckRight = false;
 			toggle(&KeepRight::getInstance());
 			toggle(&TurnLeft::getInstance());
 			toggle(&Stop::getInstance());
@@ -133,6 +159,8 @@ void Robot::initStateListForNode(int scenario) {
 		
 		//4 -> 5
 		case 10:
+            dontCheckLeft = false;
+            dontCheckRight = false;
             toggle(&KeepLeft::getInstance());
 			toggle(&TurnRight::getInstance());
 			toggle(&Stop::getInstance());
@@ -140,6 +168,8 @@ void Robot::initStateListForNode(int scenario) {
 
 		//6 -> 5
 		case 11:
+            dontCheckLeft = true;
+            dontCheckRight = true;
             toggle(&KeepRight::getInstance());
 			toggle(&TurnLeft::getInstance());
 			toggle(&Stop::getInstance());
@@ -147,6 +177,8 @@ void Robot::initStateListForNode(int scenario) {
 
 		//5 -> 6
 		case 12:
+            dontCheckLeft = false;
+            dontCheckRight = false;
             toggle(&KeepLeft::getInstance());
 			toggle(&TurnRight::getInstance());
 			toggle(&Stop::getInstance());
@@ -212,5 +244,8 @@ void Robot::navigate(int startNode, int endNode) {
     delete[] shortestPath;
 }
 
+float Robot::getSensorM2() {
+    return fiveSensors.getM2SensorDist();
+}
 
 
