@@ -4,6 +4,7 @@
 void Stop::enter(Robot* robot)
 {
 	//Stop all motors
+	Serial.println("Stopping");
     robot->movements.stop();
 }
 
@@ -16,6 +17,7 @@ MovementState& Stop::getInstance()
 
 void TurnLeft::enter(Robot* robot)
 {
+	Serial.println("Turning left");
     robot->movements.left();
 }
 
@@ -27,6 +29,7 @@ MovementState& TurnLeft::getInstance()
 
 void TurnRight::enter(Robot* robot)
 {
+	Serial.println("Turning right");
     robot->movements.right();
 }
 
@@ -48,3 +51,15 @@ MovementState& KeepRight::getInstance()
 	static KeepRight singleton;
 	return singleton;
 }
+
+void KeepRight::enter(Robot* robot)
+{
+	Serial.println("Keeping right");
+}
+
+void KeepLeft::enter(Robot* robot)
+{
+	Serial.println("Keeping left");
+}
+
+
