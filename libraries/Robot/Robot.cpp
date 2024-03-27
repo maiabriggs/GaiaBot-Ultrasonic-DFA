@@ -5,6 +5,7 @@
 #include "Movements.h"
 #include <FiveSensors.h>
 #include "ConcreteMovementStates.h"
+#include "Dijkstras.h" 
 
 
 Movements movements;
@@ -168,4 +169,48 @@ void Robot::traverseToNode(int currNode, int nextNode) {
     }
 	initStateListForNode(scenario);
 }
+
+void Robot::navigate(int startNode, int endNode) {
+    // Use Dijkstra's algorithm to find the shortest path
+    Dijkstras dijkstras(7); // Assuming there are 7 nodes in the graph
+    dijkstras.addEdge(0, 1, 1);
+    dijkstras.addEdge(1, 0, 1);
+    dijkstras.addEdge(1, 2, 1);
+    dijkstras.addEdge(2, 1, 1);
+    dijkstras.addEdge(2, 3, 1);
+    dijkstras.addEdge(3, 2, 1);
+    dijkstras.addEdge(2, 0, 1);
+    dijkstras.addEdge(1, 6, 1);
+    dijkstras.addEdge(6, 1, 1);
+    dijkstras.addEdge(3, 4, 1);
+    dijkstras.addEdge(4, 3, 1);
+    dijkstras.addEdge(4, 5, 1);
+    dijkstras.addEdge(4, 5, 1);
+    dijkstras.addEdge(5, 6, 1);
+    dijkstras.addEdge(6, 5, 1);
+
+    // Find the shortest path from the startNode to the endNode
+    dijkstras.shortestPath(startNode, endNode);
+
+	// Get the shortest path array
+    int* shortestPath = dijkstras.getShortestPathList(startNode, endNode);
+
+    int pathLength = dijkstras.getPathLength(startNode, endNode) + 1;
+
+    for (int i = 0; i < pathLength - 1; ++i) {
+        // Check if the current vertex in the shortest path array is valid
+        if (shortestPath[i] != -1) {
+			Serial.print("Going from node ");
+			Serial.print(shortestPath[i]);
+			Serial.print(" to ");
+			Serial.println(shortestPath[i+1]);
+			traverseToNode(shortestPath[i], shortestPath[i+1]);
+        }
+    }
+
+    // Free memory allocated for the shortest path array
+    delete[] shortestPath;
+}
+
+
 

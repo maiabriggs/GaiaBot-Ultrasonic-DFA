@@ -8,6 +8,7 @@
 #include "Movements.h";
 #include "MovementState.h";
 #include "ConcreteMovementStates.h";
+#include "Dijkstras.h" 
 
 
 class MovementState;
@@ -20,6 +21,7 @@ class Robot {
 	    void setState(MovementState& newState);
         void initStateListForNode(int scenario);
         void traverseToNode(int currNode, int nextNode);
+        void navigate(int startNode, int endNode);
 
     private:
 	    MovementState* currentState;

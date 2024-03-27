@@ -1,54 +1,32 @@
-#include <HCSR04.h>
-#include <FiveSensors.h>
-#include <Movements.h>
-#include <RoboClaw.h>
-#include <Robot.h>
-#include <MovementState.h>
-#include "ConcreteMovementStates.h"
+#include "Robot.h"
 
-int fTrig = 7;
-int fEcho = 6;
+// Pin configuration for the robot's sensors
+const int f_trigPin = 2;
+const int f_echoPin = 3;
+const int m2_trigPin = 4;
+const int m2_echoPin = 5;
+const int m1_trigPin = 6;
+const int m1_echoPin = 7;
+const int fm1_trigPin = 8;
+const int fm1_echoPin = 9;
+const int fm2_trigPin = 10;
+const int fm2_echoPin = 11;
 
-int m2Trig = 9;
-int m2Echo = 8;
+// Define the start and end nodes for navigation
+const int startNode = 0; // Start node
+const int endNode = 6;   // End node
 
-int m1Trig = 3;
-int m1Echo = 2;
-
-int fm2Trig = 11;
-int fm2Echo = 10;
-
-int fm1Trig = 5;
-int fm1Echo = 4;
-
-Robot robot(fTrig, fEcho, m2Trig, m2Echo, m1Trig, m1Echo, fm1Trig, fm1Echo, fm2Trig, fm2Echo);
+// Create an instance of the Robot class
+Robot myRobot(f_trigPin, f_echoPin, m2_trigPin, m2_echoPin, m1_trigPin, m1_echoPin, fm1_trigPin, fm1_echoPin, fm2_trigPin, fm2_echoPin);
 
 void setup() {
-    // Initialize serial communication for debugging
-    Serial.begin(9600);
-    
-    // Add any additional setup code here
+  // Initialize serial communication
+  Serial.begin(9600);
+
+  // Call the navigate function to find the shortest path and traverse it
+  myRobot.navigate(startNode, endNode);
 }
 
 void loop() {
-    // Example: Switch from Stop to TurnLeft state
-    // Define the next state to switch to
-    MovementState& nextTurnLeftState = TurnLeft::getInstance();
-    
-    // Toggle to the next state
-    robot.toggle(nextTurnLeftState);
-    
-    // Add a delay or other code here if needed
-    delay(1000); // Delay for 1 second
-    
-    // After the switch, you can continue with other operations or switch to another state
-    
-    // Example: Switch back to Stop state
-    MovementState& nextStopState = Stop::getInstance();
-    robot.toggle(nextStopState);
-    
-    // Add a delay or other code here if needed
-    delay(1000); // Delay for 1 second
-    
-    // Loop continues, performing state transitions or other operations
+  // Empty loop
 }
