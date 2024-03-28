@@ -45,7 +45,7 @@ void setup() {
         }
     }
     Serial.println();
-    Serial.print(dijkstras.getPathLength(0, 6));
+    Serial.print(dijkstras.getPathLength(0, 2));
 
     // Free memory allocated for the shortest path array
     delete[] shortestPath;
