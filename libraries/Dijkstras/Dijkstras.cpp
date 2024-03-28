@@ -1,9 +1,5 @@
-// Dijkstras.cpp
-
 #include "PriorityQueue.h"
 #include "Stack.h"
-// Dijkstras.cpp
-
 #include "Arduino.h"
 #include "Dijkstras.h"
 #include <limits.h>
@@ -106,7 +102,7 @@ int Dijkstras::findPath(int startPos, int endPos) {
 }
 
 int* Dijkstras::getShortestPathList(int startPos, int endPos) {
-    // Check if a valid path exists
+
     if (dist[endPos] == INT_MAX) {
         return nullptr; 
     }
@@ -115,14 +111,14 @@ int* Dijkstras::getShortestPathList(int startPos, int endPos) {
     int currentVertex = endPos;
     int pathLength = 0;
 
-    // Backtrack from the end position to the start position
+
     while (currentVertex != startPos) {
         shortestPath[pathLength++] = currentVertex;
         currentVertex = prev[currentVertex];
     }
     shortestPath[pathLength++] = startPos;
 
-    // Reverse the path
+    
     for (int i = 0; i < pathLength / 2; ++i) {
         int temp = shortestPath[i];
         shortestPath[i] = shortestPath[pathLength - i - 1];
