@@ -1,5 +1,3 @@
-// PriorityQueue.cpp
-
 #include "Arduino.h"
 #include "PriorityQueue.h"
 
