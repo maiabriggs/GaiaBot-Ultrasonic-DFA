@@ -99,6 +99,7 @@ int Dijkstras::findPath(int startPos, int endPos) {
     g.addEdge(4, 3, 1);
     g.addEdge(4, 5, 1);
     g.addEdge(4, 5, 1);
+    g.addEdge(5, 4, 1);
     g.addEdge(5, 6, 1);
     g.addEdge(6, 5, 1);
 
