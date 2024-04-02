@@ -59,3 +59,49 @@ class KeepRight : public MovementState {
         KeepRight(const KeepRight& other);
         KeepRight& operator=(const KeepRight& other);
 };
+
+class FaceNorth : public MovementState {
+    public:
+        void enter(Robot* robot);
+        static MovementState& getInstance();
+
+    private:
+        FaceNorth() {}
+        FaceNorth(const TurnLeft& other);
+        FaceNorth& operator=(const TurnLeft& other);
+};
+
+class FaceSouth : public MovementState {
+    public:
+        void enter(Robot* robot);
+        static MovementState& getInstance();
+
+    private:
+        FaceSouth() {}
+        FaceSouth(const TurnLeft& other);
+        FaceSouth& operator=(const TurnLeft& other);
+};
+
+class FaceWest : public MovementState {
+    public:
+        void enter(Robot* robot);
+        static MovementState& getInstance();
+
+    private:
+        FaceWest() {}
+        FaceWest(const TurnLeft& other);
+        FaceWest& operator=(const TurnLeft& other);
+};
+
+class FaceEast : public MovementState {
+    public:
+        void enter(Robot* robot);
+        static MovementState& getInstance();
+
+    private:
+        FaceEast() {}
+        FaceEast(const TurnLeft& other);
+        FaceEast& operator=(const TurnLeft& other);
+};
+
+

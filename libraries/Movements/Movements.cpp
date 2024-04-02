@@ -35,13 +35,13 @@ void Movements::backward()
 void Movements::left90()
 {
     roboclaw.ForwardM1(address, 30);
-    delay(3430); // Might need to changes
+    delay(4830); // Might need to changes
 }
 
 void Movements::right90()
 {
     roboclaw.ForwardM2(address, 30);
-    delay(3400); // Might need to changes
+    delay(4830); // Might need to changes
 }
 
 void Movements::left()
@@ -89,12 +89,12 @@ void Movements::veerLeft()
 
 void Movements::rotateLeft()
 {
-    roboclaw.ForwardM1(address, 30); 
-    roboclaw.BackwardM2(address, 30);
+    roboclaw.ForwardM1(address, 25); 
+    roboclaw.BackwardM2(address, 25);
 }
 
 void Movements::rotateRight()
 {
-    roboclaw.BackwardM1(address, 30); 
-    roboclaw.ForwardM2(address, 30);
+    roboclaw.BackwardM1(address, 25); 
+    roboclaw.ForwardM2(address, 25);
 }
