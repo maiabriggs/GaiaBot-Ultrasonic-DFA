@@ -9,6 +9,10 @@
 
 //RoboClaw is plugged into ->
 
+int North = 0;
+int South = 1;
+int East = 2;
+int West = 3;
 
 //IMU INCLUDES
 #include "AK09918.h"
@@ -20,6 +24,7 @@ FiveSensors fiveSensors;
 
 bool dontCheckLeft;
 bool dontCheckRight;
+int dir;
 
 //IMU 
 AK09918_err_type_t err;
@@ -196,6 +201,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckLeft = false;
             dontCheckRight = false;
             dontCheckStraight = false;
+            dir = South;
             // Define the states for node 1
             toggle(&FaceSouth::getInstance());
             toggle(&KeepLeft::getInstance());
@@ -208,9 +214,11 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckLeft = false;
             dontCheckRight = true;
             dontCheckStraight = true;
+            dir = East;
             toggle(&FaceEast::getInstance());
             toggle(&KeepRight::getInstance());
 			toggle(&FaceNorth::getInstance());
+            dir = North;
             toggle(&KeepLeft::getInstance());
             toggle(&Stop::getInstance());
             break;
@@ -220,6 +228,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckLeft = true;
             dontCheckRight = false;
             dontCheckStraight = false;
+            dir = East;
             toggle(&FaceEast::getInstance());
             toggle(&KeepRight::getInstance());
 			toggle(&FaceNorth::getInstance());
@@ -231,9 +240,11 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckLeft = true;
             dontCheckRight = false;
             dontCheckStraight = false;
+            dir = South;
             toggle(&FaceSouth::getInstance());
 			toggle(&KeepRight::getInstance());
             toggle(&FaceWest::getInstance());
+            dir = West;
             toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -244,6 +255,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceWest::getInstance());
+            dir = West;
             toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -254,6 +266,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceEast::getInstance());
+            dir = East;
 			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -264,6 +277,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = false;
             dontCheckStraight = false;
             toggle(&FaceWest::getInstance());
+            dir = West;
             toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             //DOUBLE CHECK - PIN
@@ -275,6 +289,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceSouth::getInstance());
+            dir = South;
 			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -285,6 +300,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceNorth::getInstance());
+            dir = North;
 			toggle(&KeepRight::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -295,6 +311,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = false;
             dontCheckStraight = false;
 			toggle(&FaceWest::getInstance());
+            dir = West;
 			toggle(&KeepRight::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -305,6 +322,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceEast::getInstance());
+            dir = East;
 			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -315,6 +333,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceNorth::getInstance());
+            dir = North;
 			toggle(&KeepRight::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -325,6 +344,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckRight = false;
             dontCheckStraight = false;
             toggle(&FaceSouth::getInstance());
+            dir = South;
 			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -417,5 +437,10 @@ double Robot::getHeading() {
     double heading = 180 + 57.3 * atan2(Yheading, Xheading) + declination_shenzhen;
 
     return heading;
+}
+
+bool Robot::inRange(int val, int minimum, int maximum)
+{
+  return ((minimum <= val) && (val <= maximum));
 }
 

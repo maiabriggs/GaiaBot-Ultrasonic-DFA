@@ -18,8 +18,8 @@ int fm1Trig = 5;
 int fm1Echo = 4;
 
 // Define the start and end nodes for navigation
-const int startNode = 0; // Start node
-const int endNode = 6;   // End node
+const int startNode = 6; // Start node
+const int endNode = 0;   // End node
 
 // Create an instance of the Robot class
 Robot myRobot(fTrig, fEcho, m2Trig, m2Echo, m1Trig, m1Echo, fm1Trig, fm1Echo, fm2Trig, fm2Echo);

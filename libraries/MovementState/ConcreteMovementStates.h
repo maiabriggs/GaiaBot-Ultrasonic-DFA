@@ -5,6 +5,7 @@
 #include "Movements.h"
 #include "FiveSensors.h"
 
+
 class Stop : public MovementState {
     public: 
         void enter(Robot* robot);
@@ -67,8 +68,8 @@ class FaceNorth : public MovementState {
 
     private:
         FaceNorth() {}
-        FaceNorth(const TurnLeft& other);
-        FaceNorth& operator=(const TurnLeft& other);
+        FaceNorth(const FaceNorth& other);
+        FaceNorth& operator=(const FaceNorth& other);
 };
 
 class FaceSouth : public MovementState {
@@ -78,8 +79,8 @@ class FaceSouth : public MovementState {
 
     private:
         FaceSouth() {}
-        FaceSouth(const TurnLeft& other);
-        FaceSouth& operator=(const TurnLeft& other);
+        FaceSouth(const FaceSouth& other);
+        FaceSouth& operator=(const FaceSouth& other);
 };
 
 class FaceWest : public MovementState {
@@ -89,8 +90,8 @@ class FaceWest : public MovementState {
 
     private:
         FaceWest() {}
-        FaceWest(const TurnLeft& other);
-        FaceWest& operator=(const TurnLeft& other);
+        FaceWest(const FaceWest& other);
+        FaceWest& operator=(const FaceWest& other);
 };
 
 class FaceEast : public MovementState {
@@ -100,8 +101,52 @@ class FaceEast : public MovementState {
 
     private:
         FaceEast() {}
-        FaceEast(const TurnLeft& other);
-        FaceEast& operator=(const TurnLeft& other);
+        FaceEast(const FaceEast& other);
+        FaceEast& operator=(const FaceEast& other);
 };
+
+// class HeadNorth : public MovementState {
+//     public:
+//         void enter(Robot* robot);
+//         static MovementState& getInstance();
+
+//     private:
+//         HeadNorth() {}
+//         HeadNorth(const HeadNorth& other);
+//         HeadNorth& operator=(const HeadNorth& other);
+// };
+
+// class HeadSouth : public MovementState {
+//     public:
+//         void enter(Robot* robot);
+//         static MovementState& getInstance();
+
+//     private:
+//         HeadSouth() {}
+//         HeadSouth(const HeadSouth& other);
+//         HeadSouth& operator=(const HeadSouth& other);
+// };
+
+// class HeadWest : public MovementState {
+//     public:
+//         void enter(Robot* robot);
+//         static MovementState& getInstance();
+
+//     private:
+//         HeadWest() {}
+//         HeadWest(const HeadWest& other);
+//         HeadWest& operator=(const HeadWest& other);
+// };
+
+// class HeadEast : public MovementState {
+//     public:
+//         void enter(Robot* robot);
+//         static MovementState& getInstance();
+
+//     private:
+//         HeadEast() {}
+//         HeadEast(const HeadEast& other);
+//         HeadEast& operator=(const HeadEast& other);
+// };
 
 

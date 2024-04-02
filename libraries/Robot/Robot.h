@@ -32,7 +32,9 @@ class Robot {
         bool dontCheckLeft;
         bool dontCheckRight;
         bool dontCheckStraight;
+        int dir;
         void moveToStartPosition();
+        bool inRange(int min, int max, int x);
 
         //IMU
         AK09918_err_type_t err;
