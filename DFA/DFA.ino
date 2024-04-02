@@ -29,7 +29,7 @@ void setup() {
   Serial.begin(9600);
   // fiveSensors.begin(fTrig, fEcho, m2Trig, m2Echo, m1Trig, m1Echo, fm1Trig, fm1Echo, fm2Trig, fm2Echo);
   // Serial.println(fiveSensors.getM2SensorDist());
-
+  myRobot.setupIMU();
   // Call the navigate function to find the shortest path and traverse it
   myRobot.navigate(startNode, endNode);
 }

@@ -1,5 +1,9 @@
+// Dijkstras.cpp
+
 #include "PriorityQueue.h"
 #include "Stack.h"
+// Dijkstras.cpp
+
 #include "Arduino.h"
 #include "Dijkstras.h"
 #include <limits.h>
@@ -33,11 +37,12 @@ void Dijkstras::shortestPath(int startPos, int endPos) {
         for (int v = 0; v < V; ++v) {
             if (!visited[v] && adj[u][v] && dist[u] != INT_MAX && dist[u] + adj[u][v] < dist[v]) {
                 dist[v] = dist[u] + adj[u][v];
-                prev[v] = u; 
+                prev[v] = u;  // Update the previous node for vertex v
             }
         }
     }
 
+    // Print shortest path only if it exists
     if (dist[endPos] != INT_MAX) {
         Serial.print("Length of shortest path from ");
         Serial.print(startPos);
@@ -102,23 +107,24 @@ int Dijkstras::findPath(int startPos, int endPos) {
 }
 
 int* Dijkstras::getShortestPathList(int startPos, int endPos) {
-
+    // Check if a valid path exists
     if (dist[endPos] == INT_MAX) {
-        return nullptr; 
+        return nullptr; // No valid path found, return nullptr
     }
 
+    // Create a dynamic array to store the shortest path
     int* shortestPath = new int[V];
     int currentVertex = endPos;
     int pathLength = 0;
 
-
+    // Backtrack from the end position to the start position
     while (currentVertex != startPos) {
         shortestPath[pathLength++] = currentVertex;
         currentVertex = prev[currentVertex];
     }
-    shortestPath[pathLength++] = startPos;
+    shortestPath[pathLength++] = startPos; // Add the start position to the path
 
-    
+    // Reverse the path to get it in the correct order
     for (int i = 0; i < pathLength / 2; ++i) {
         int temp = shortestPath[i];
         shortestPath[i] = shortestPath[pathLength - i - 1];
@@ -129,13 +135,15 @@ int* Dijkstras::getShortestPathList(int startPos, int endPos) {
 }
 
 int Dijkstras::getPathLength(int startPos, int endPos) {
+    // Check if a valid path exists
     if (dist[endPos] == INT_MAX) {
-        return -1;
+        return -1; // No valid path found, return -1
     }
 
     int pathLength = 0;
     int currentVertex = endPos;
 
+    // Backtrack from the end position to the start position
     while (currentVertex != startPos) {
         currentVertex = prev[currentVertex];
         pathLength++;
