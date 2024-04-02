@@ -3,11 +3,11 @@
 #include "Movements.h"
 #include "FiveSensors.h"
 
-const int leftCheckDist = 150;
+const int leftCheckDist = 70;
 const int rightCheckDist = 150;
-const int frontCheckDist = 40;
-const int fLeftCheckDist = 25;
-const int fRightCheckDist = 25;
+const int frontCheckDist = 50;
+const int fLeftCheckDist = 35;
+const int fRightCheckDist = 35;
 
 const int WEST = 75;
 const int EAST = 285;
@@ -123,35 +123,18 @@ void KeepRight::enter(Robot* robot)
 			}
 		}
 
-		//EAST
-		else if (robot->dir == 2 && robot->inRange(EAST_HIGHER, SOUTH_HIGHER, robot->getHeading())) {
-			delay(10);
-			if (robot->dir == 2 && robot->inRange(EAST_HIGHER, SOUTH_HIGHER, robot->getHeading())) {
-				Serial.println("veering left to head East");
-				robot->movements.veerLeft();
-			}
-			
-		}
-		else if (robot->dir == 2 && robot->inRange(EAST_LOWER, NORTH_HIGHER, robot->getHeading())) {
-			delay(10);
-			if (robot->dir == 2 && robot->inRange(EAST_LOWER, NORTH_HIGHER, robot->getHeading())){
-				Serial.println("veering right to head East");
-				robot->movements.veerRight();
-			}
-		}
-
 		//WEST
-		else if (robot->dir == 2 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
+		else if (robot->dir == 3 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
 			delay(10);
-			if (robot->dir == 2 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
+			if (robot->dir == 3 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
 				Serial.println("veering left to head west");
 				robot->movements.veerLeft();
 			}
 			
 		}
-		else if (robot->dir == 2 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())) {
+		else if (robot->dir == 3 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())) {
 			delay(10);
-			if (robot->dir == 2 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())){
+			if (robot->dir == 3 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())){
 				Serial.println("veering right to head west");
 				robot->movements.veerRight();
 			}
@@ -183,6 +166,25 @@ void KeepRight::enter(Robot* robot)
 				robot->movements.veerRight();
 			}
         } 
+
+		//EAST
+		else if (robot->dir == 2 && robot->inRange(EAST_HIGHER, SOUTH_HIGHER, robot->getHeading())) {
+			delay(10);
+			if (robot->dir == 2 && robot->inRange(EAST_HIGHER, SOUTH_HIGHER, robot->getHeading())) {
+				Serial.println("veering right to head East");
+				robot->movements.veerRight();
+			}
+			
+		}
+		else if (robot->dir == 2 && robot->inRange(EAST_LOWER, NORTH_HIGHER, robot->getHeading())) {
+			delay(10);
+			if (robot->dir == 2 && robot->inRange(EAST_LOWER, NORTH_HIGHER, robot->getHeading())){
+				Serial.println("veering left to head East");
+				Serial.println("Heading ");
+				Serial.println(robot->getHeading());
+				robot->movements.veerLeft();
+			}
+		}
 		
 		//----END CHECK------
 		else if (( ((robot->fiveSensors.getM1SensorDist() > rightCheckDist) && robot->dontCheckRight == false) | (robot->fiveSensors.getFM1SensorDist() <= fRightCheckDist && robot->dontCheckRight == false) | ((robot->fiveSensors.getM2SensorDist() > leftCheckDist) && robot->dontCheckLeft == false) | (robot->fiveSensors.getFM2SensorDist() <= leftCheckDist && robot->dontCheckLeft == false) | ((robot->fiveSensors.getFrontSensorDist() < frontCheckDist) && robot->dontCheckStraight == false) )) {
@@ -199,7 +201,7 @@ void KeepLeft::enter(Robot* robot)
 	Serial.println("Keeping left");
 	//Initial forward movement to clear any open space
 	robot->movements.forward();
-	delay(100);
+	delay(500);
     while ((!(robot->fiveSensors.getM1SensorDist() > rightCheckDist) && robot->dontCheckRight == false) | (!(robot->fiveSensors.getM2SensorDist() > leftCheckDist) && robot->dontCheckLeft == false) | (!(robot->fiveSensors.getFrontSensorDist() < frontCheckDist) && robot->dontCheckStraight == false)) {
 		robot->movements.forward();
 		if (( ((robot->fiveSensors.getM1SensorDist() > rightCheckDist) && robot->dontCheckRight == false) | (robot->fiveSensors.getFM1SensorDist() <= fRightCheckDist && robot->dontCheckRight == false) | ((robot->fiveSensors.getM2SensorDist() > leftCheckDist) && robot->dontCheckLeft == false) | (robot->fiveSensors.getFM2SensorDist() <= fLeftCheckDist && robot->dontCheckLeft == false) | ((robot->fiveSensors.getFrontSensorDist() < frontCheckDist) && robot->dontCheckStraight == false) )) {
@@ -207,19 +209,39 @@ void KeepLeft::enter(Robot* robot)
 			delay(1000);
 			break;
 		}
+
+		//SENSORS
+        else if (robot->getSensorM2() < (25)) {
+			delay(10);
+			if (robot->getSensorM2() < (25)) {
+				Serial.println("I'm too close to the left wall");
+            	robot->movements.veerRight();
+			}
+        }
+
+		//----SENSOR WALL CHECKING-----
+		else if (robot->fiveSensors.getM1SensorDist() < (25)) {
+			delay(10);
+			Serial.println(robot->fiveSensors.getM1SensorDist());
+			if (robot->fiveSensors.getM1SensorDist() < (25)) {
+				Serial.println("I'm too close to the Right wall");
+				robot->movements.veerLeft();
+			}
+        } 
+
 		//NORTH
 		else if (robot->dir == 0 && robot->inRange(NORTH_LOWER, WEST_HIGHER, robot->getHeading())) {
 			delay(10);
 			if (robot->dir == 0 && robot->inRange(NORTH_LOWER, WEST_HIGHER, robot->getHeading())) {
-				Serial.println("veering left to head north");
-				robot->movements.veerLeft();
+				Serial.println("veering right to head north");
+				robot->movements.veerRight();
 			}
 			
 		}
 		else if (robot->dir == 0 && robot->inRange(NORTH_HIGHER, EAST_LOWER, robot->getHeading())) {
 			delay(10);
 			if (robot->dir == 0 && robot->inRange(NORTH_HIGHER, EAST_LOWER, robot->getHeading())){
-				Serial.println("veering right to head north");
+				Serial.println("veering left to head north");
 				robot->movements.veerRight();
 			}
 		}
@@ -244,31 +266,31 @@ void KeepLeft::enter(Robot* robot)
 		else if (robot->dir == 2 && robot->inRange(EAST_HIGHER, SOUTH_HIGHER, robot->getHeading())) {
 			delay(10);
 			if (robot->dir == 2 && robot->inRange(EAST_HIGHER, SOUTH_HIGHER, robot->getHeading())) {
-				Serial.println("veering left to head East");
-				robot->movements.veerLeft();
+				Serial.println("veering right to head East");
+				robot->movements.veerRight();
 			}
 			
 		}
 		else if (robot->dir == 2 && robot->inRange(EAST_LOWER, NORTH_HIGHER, robot->getHeading())) {
 			delay(10);
 			if (robot->dir == 2 && robot->inRange(EAST_LOWER, NORTH_HIGHER, robot->getHeading())){
-				Serial.println("veering right to head East");
-				robot->movements.veerRight();
+				Serial.println("veering left to head East");
+				robot->movements.veerLeft();
 			}
 		}
 
 		//WEST
-		else if (robot->dir == 2 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
+		else if (robot->dir == 3 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
 			delay(10);
-			if (robot->dir == 2 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
+			if (robot->dir == 3 && robot->inRange(WEST_HIGHER, NORTH_LOWER, robot->getHeading())) {
 				Serial.println("veering left to head west");
 				robot->movements.veerLeft();
 			}
 			
 		}
-		else if (robot->dir == 2 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())) {
+		else if (robot->dir == 3 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())) {
 			delay(10);
-			if (robot->dir == 2 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())){
+			if (robot->dir == 3 && robot->inRange(WEST_LOWER, SOUTH_LOWER, robot->getHeading())){
 				Serial.println("veering right to head west");
 				robot->movements.veerRight();
 			}

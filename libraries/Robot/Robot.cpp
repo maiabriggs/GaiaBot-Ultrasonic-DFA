@@ -39,7 +39,7 @@ double roll, pitch;
 // http://www.magnetic-declination.com/
 double declination_shenzhen = -0.45;
 
-int sitch[13][2] = {
+int sitch[16][2] = {
     {0, 1},
     {1, 2},
     {1, 6},
@@ -52,7 +52,10 @@ int sitch[13][2] = {
     {5, 4},
     {4, 5},
     {6, 5},
-    {5, 6}
+    {5, 6},
+    {1, 0},
+    {0, 2},
+    {2, 0}
 };
 
 
@@ -212,12 +215,13 @@ void Robot::initStateListForNode(int scenario) {
         case 1:
             dontCheckLeft = false;
             dontCheckRight = true;
-            dontCheckStraight = true;
+            dontCheckStraight = false;
             dir = East;
             toggle(&FaceEast::getInstance());
-            toggle(&KeepRight::getInstance());
+            toggle(&KeepLeft::getInstance());
 			toggle(&FaceNorth::getInstance());
             dir = North;
+            dontCheckLeft = true;
             toggle(&KeepLeft::getInstance());
             toggle(&Stop::getInstance());
             break;
@@ -229,7 +233,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckStraight = false;
             dir = East;
             toggle(&FaceEast::getInstance());
-            toggle(&KeepRight::getInstance());
+            toggle(&KeepLeft::getInstance());
 			toggle(&FaceNorth::getInstance());
 			toggle(&Stop::getInstance());
             break;
@@ -241,7 +245,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckStraight = false;
             dir = South;
             toggle(&FaceSouth::getInstance());
-			toggle(&KeepRight::getInstance());
+			toggle(&KeepLeft::getInstance());
             toggle(&FaceWest::getInstance());
             dir = West;
             toggle(&KeepLeft::getInstance());
@@ -300,7 +304,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckStraight = false;
             toggle(&FaceNorth::getInstance());
             dir = North;
-			toggle(&KeepRight::getInstance());
+			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
 		
@@ -311,7 +315,7 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckStraight = false;
 			toggle(&FaceWest::getInstance());
             dir = West;
-			toggle(&KeepRight::getInstance());
+			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
 		
@@ -333,18 +337,51 @@ void Robot::initStateListForNode(int scenario) {
             dontCheckStraight = false;
             toggle(&FaceNorth::getInstance());
             dir = North;
-			toggle(&KeepRight::getInstance());
+			toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
 
 		//5 -> 6
 		case 12:
             dontCheckLeft = false;
-            dontCheckRight = false;
+            dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceSouth::getInstance());
             dir = South;
 			toggle(&KeepLeft::getInstance());
+			toggle(&Stop::getInstance());
+            break;
+
+        //1 -> 0
+        case 13:
+            dontCheckLeft = true;
+            dontCheckRight = true;
+            dontCheckStraight = false;
+            toggle(&FaceNorth::getInstance());
+            dir = North;
+            toggle(&KeepLeft::getInstance());
+			toggle(&Stop::getInstance());
+            break;
+        
+        //0 -> 2
+        case 14:
+            dontCheckLeft = true;
+            dontCheckRight = true;
+            dontCheckStraight = false;
+            toggle(&FaceEast::getInstance());
+            dir = East;
+            toggle(&KeepLeft::getInstance());
+			toggle(&Stop::getInstance());
+            break;
+        
+        //2 -> 0
+        case 15:
+            dontCheckLeft = true;
+            dontCheckRight = true;
+            dontCheckStraight = false;
+            toggle(&FaceWest::getInstance());
+            dir = West;
+            toggle(&KeepLeft::getInstance());
 			toggle(&Stop::getInstance());
             break;
 
@@ -355,10 +392,10 @@ void Robot::initStateListForNode(int scenario) {
 }
 
 void Robot::traverseToNode(int currNode, int nextNode) {
-	int scenario = 14;
+	int scenario = 16;
 
     // Iterate through the list of states and perform actions
-    for (int i = 0; i < 13; ++i) {
+    for (int i = 0; i < 16; ++i) {
 		if ((sitch[i][0] == currNode && sitch[i][1] == nextNode)) {
 			scenario = i;
 		}
@@ -380,10 +417,11 @@ void Robot::navigate(int startNode, int endNode) {
     dijkstras.addEdge(6, 1, 1);
     dijkstras.addEdge(3, 4, 1);
     dijkstras.addEdge(4, 3, 1);
-    dijkstras.addEdge(4, 5, 1);
+    dijkstras.addEdge(5, 4, 1);
     dijkstras.addEdge(4, 5, 1);
     dijkstras.addEdge(5, 6, 1);
     dijkstras.addEdge(6, 5, 1);
+    dijkstras.addEdge(0, 2, 1);
 
     // Find the shortest path from the startNode to the endNode
     dijkstras.shortestPath(startNode, endNode);
