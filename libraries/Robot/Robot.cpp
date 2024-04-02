@@ -91,7 +91,6 @@ void Robot::setupIMU(){
     movements.stop();
     Serial.println("");
     movements.stop();
-    moveToStartPosition();
 }
 
 void Robot::calibrate(uint32_t timeout, int32_t* offsetx, int32_t* offsety, int32_t* offsetz) {
