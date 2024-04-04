@@ -254,7 +254,7 @@ void Robot::initStateListForNode(int scenario) {
 		
 		//6 -> 1
 		case 4:
-            dontCheckLeft = false;
+            dontCheckLeft = true;
             dontCheckRight = true;
             dontCheckStraight = false;
             toggle(&FaceWest::getInstance());

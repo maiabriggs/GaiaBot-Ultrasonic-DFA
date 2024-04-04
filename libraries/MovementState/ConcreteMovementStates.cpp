@@ -12,16 +12,16 @@ const int fRightCheckDist = 35;
 const int WEST = 75;
 const int EAST = 285;
 const int NORTH = 170;
-const int SOUTH = 358;
+const int SOUTH = 350;
 
 const int WEST_LOWER = 60;
-const int EAST_LOWER = 245;
-const int NORTH_LOWER = 160;
+const int EAST_LOWER = 280;
+const int NORTH_LOWER = 190;
 const int SOUTH_LOWER =  4;
 
-const int WEST_HIGHER = 75;
-const int EAST_HIGHER = 265;
-const int NORTH_HIGHER = 180;
+const int WEST_HIGHER = 80;
+const int EAST_HIGHER = 310;
+const int NORTH_HIGHER = 220;
 const int SOUTH_HIGHER = 355;
 
 void Stop::enter(Robot* robot)
@@ -339,10 +339,10 @@ void FaceNorth::enter(Robot* robot)
 {
 	Serial.println("Facing North");
 	while (true) {
-		if (robot->getHeading() > 169 && robot->getHeading() < 176) {
+		if (robot->getHeading() > NORTH_LOWER && robot->getHeading() < NORTH_HIGHER) {
 			robot->movements.stop();
 			delay(200);
-			if (robot->getHeading() > 160 && robot->getHeading() < 180) {
+			if (robot->getHeading() > NORTH_LOWER && robot->getHeading() < NORTH_HIGHER) {
 				break;
 			}
 		}
@@ -374,11 +374,7 @@ void FaceSouth::enter(Robot* robot)
 			robot->movements.rotateLeft();
 		}
 	}
-}
-
-
-MovementState& FaceSouth::getInstance()
-{
+}2
 	static FaceSouth singleton;
 	return singleton;
 }
